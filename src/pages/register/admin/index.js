@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styles from './styles.module.css';
 
 function AdminSignUpComponent(){
@@ -6,28 +6,36 @@ function AdminSignUpComponent(){
     return (
         <div className={styles.main}>
             <section className={styles.headerSection}>
-                <h2 className={styles.mainHeader}>Create Account,</h2>
-                <h2 className={styles.mainSubHeader}>Sign up to get started!</h2>
+                <h2>Create Account,</h2>
+                <h2>Sign up to get started!</h2>
             </section>
             <section className={styles.formSection}>
                 <form>
-                    <label className={styles.doNotShow} htmlFor="admin-register-firstName">
+                    <label htmlFor="admin-register-firstName">
                         First Name:
                     </label>
-                    <input id='admin-register-firstName' type="text" placeholder='First Name'/>
+                    <input 
+                        id='admin-register-firstName' 
+                        type="text" 
+                        placeholder='First Name'
+                    />
                 </form>
                 <form>
-                    <label className={styles.doNotShow} htmlFor="admin-register-lastName">
+                    <label htmlFor="admin-register-lastName">
                         Last Name:
                     </label>
                     <input id="admin-register-lastName" type="text" placeholder='Last Name'/>
                 </form>
                 <form>
-                    <label className={styles.doNotShow} htmlFor="admin-register-email">
+                    <label htmlFor="admin-register-email">
                         Email:
                     </label>
                     <input id="admin-register-email" type="text" placeholder='Email'/>
                 </form>
+                <button>Go next</button>
+            </section>
+            <section className={styles.footerSection}>
+                <h4>I am already a member, <span>Sign in</span></h4>
             </section>
         </div>
     );
