@@ -34,7 +34,7 @@
 }
 
 .formSection form input {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     width: 95%;
     height: 3rem;
     font-size: 1.2rem;
@@ -75,4 +75,37 @@
     font-weight: 700;
     color: #0B25ED;
     text-decoration: underline;
+}
+
+.passwordValidation {
+    flex: 1;
+}
+
+.passwordValidation ul{
+    list-style: none;
+    line-height: 2rem;
+}
+
+.passwordValidation ul .initial{
+    color: darkgray;
+}
+
+.passwordValidation ul .passed{
+    color: green;
+}
+
+.passwordValidation ul .failed{
+    color: red;
+}
+
+.passwordValidation ul span{
+    margin-right: 1rem;
+}
+
+.buttonGroup {
+    display: flex;
+}
+
+.buttonGroup button:first-child {
+    margin-right: 1rem;
 }
