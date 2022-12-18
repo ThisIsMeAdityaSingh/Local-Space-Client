@@ -108,4 +108,7 @@
 
 .buttonGroup button:first-child {
     margin-right: 1rem;
+    background-color: #4b4b4b;
+    border: 1px solid #4b4b4b;
+    color: white;
 }

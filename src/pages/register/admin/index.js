@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { REGISTRATION_DATA_VALIDATION, PASSWORD_VALIDATION } from '../../../common/validations';
+import AddressForm from './components/address-form';
 import PasswordForm from './components/password-form';
 import PrimaryForm from './components/primary-form';
 import styles from './styles.module.css';
@@ -15,6 +16,7 @@ function AdminSignUpComponent(){
         confirmPassword: '',
         addressLine1: '',
         addressLine2: '',
+        country: '',
         city: '',
         state: '',
         pincode: ''
@@ -28,6 +30,7 @@ function AdminSignUpComponent(){
         confirmPassword: '',
         addressLine1: '',
         addressLine2: '',
+        country: '',
         city: '',
         state: '',
         pincode: ''
@@ -40,7 +43,7 @@ function AdminSignUpComponent(){
      * @return {void}
      */
     const formDataValidation = (value, field) => {
-        if(REGISTRATION_DATA_VALIDATION[field].required){
+        if(REGISTRATION_DATA_VALIDATION[field]?.required){
             if(value.length < REGISTRATION_DATA_VALIDATION[field].min){
                 setErrorData(prevState => {
                     return {...prevState, [field]: `Please enter a minimum of ${REGISTRATION_DATA_VALIDATION[field].min} letters`}
@@ -135,11 +138,16 @@ function AdminSignUpComponent(){
     const switchScreen = num => setIndex(prevState => prevState + num);
 
     /**
+     * Submits the Form, makes a POST call.
+     */
+    const onFormSubmit = () => {};
+
+    /**
      * Switched between screen depending upon user journey and action
      */
     const renderLogic = () => {
         switch (index) {
-            case 1:
+            case 0:
                 return <PrimaryForm
                     styles={styles}
                     formData={formData} 
@@ -147,16 +155,24 @@ function AdminSignUpComponent(){
                     onInputChange={onInputChange} 
                     switchScreen={switchScreen}
                 />
-            case 0:
+            case 1:
                 return <PasswordForm 
                     styles={styles} 
                     switchScreen={switchScreen} 
                     onInputChange={onInputChange} 
+                    errorData={errorData}
                     formData={formData}
                     PASSWORD_VALIDATION={PASSWORD_VALIDATION}
                 />
             default:
-                break;
+                return <AddressForm
+                    styles={styles}
+                    formData={formData}
+                    errorData={errorData}
+                    onInputChange={onInputChange}
+                    onFormSubmit={onFormSubmit}
+                    switchScreen={switchScreen}
+                />
         }
     };
 

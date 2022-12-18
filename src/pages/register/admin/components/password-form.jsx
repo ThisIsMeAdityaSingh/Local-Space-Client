@@ -1,7 +1,7 @@
 import React from 'react';
 import {IoEllipseSharp, IoCheckmarkCircle, IoCloseCircleSharp} from 'react-icons/io5';
 
-function PasswordForm({styles, onInputChange, switchScreen, formData, PASSWORD_VALIDATION}){
+function PasswordForm({styles, onInputChange, switchScreen, errorData, formData, PASSWORD_VALIDATION}){
 
     const oneLetter = () => {
         if(!formData['password']){
@@ -136,31 +136,38 @@ function PasswordForm({styles, onInputChange, switchScreen, formData, PASSWORD_V
             </section>
             <section className={styles.formSection}>
                 <form>
-                    <label htmlFor="admin-register-firstName">
+                    <label htmlFor="admin-register-password">
                         Password:
                     </label>
                     <input 
-                        id='admin-register-firstName' 
+                        id='admin-register-password' 
                         type="text" 
                         placeholder='Password'
                         onChange={event => onInputChange(event, 'password')}
                     />
+                    <sub>Required</sub>
                 </form>
                 <form>
-                    <label htmlFor="admin-register-lastName">
+                    <label htmlFor="admin-register-cnfPassword">
                         Re-enter password:
                     </label>
                     <input 
-                        id="admin-register-lastName" 
+                        id="admin-register-cnfPassword" 
                         type="text" 
                         placeholder='Re-enter password'
-                        disabled
+                        disabled={errorData['password'] === ''}
                         onChange={event => onInputChange(event, 'confirmPassword')}
                     />
+                    <sub>Required. Please re-enter you password again to go next.</sub>
                 </form>
                 <div className={styles.buttonGroup}>
                     <button onClick={() => switchScreen(-1)}>Go back</button>
-                    <button onClick={() => switchScreen(1)}>Go next</button>
+                    <button 
+                        onClick={() => switchScreen(1)}
+                        disabled={errorData['password'] !== '' && formData['confirmPassword'] !== formData['password'] && formData['password'] !== ''}
+                    >
+                        Go next
+                    </button>
                 </div>
             </section>
         </>
