@@ -6,7 +6,9 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
     const [stateCode, setStateCode] = useState('');
 
     const onOptionSelect = (event, field) => {
-
+        const {value} = event.target;
+        console.log(value, field);
+        // onInputChange(event, 'country')
     };
 
     return (
@@ -20,11 +22,11 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
                     list='admin-register-country-list'
                     type="text" 
                     placeholder='Country'
-                    onChange={event => onInputChange(event, 'country')}
+                    onChange={event => onOptionSelect(event, 'country')}
                 />
                 <datalist id='admin-register-country-list'>
                     {Country.getAllCountries().map(item => {
-                        return <option value={item.name} key={item.isoCode}>
+                        return <option value={`${item.name} (${item.isoCode})`} key={item.isoCode}>
                             {item.name}
                         </option>
                     })}
