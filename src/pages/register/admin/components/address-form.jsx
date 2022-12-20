@@ -9,6 +9,7 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
         const {value} = event.target;
         console.log(value, field);
         // onInputChange(event, 'country')
+        // make own Country state city API
     };
 
     return (
