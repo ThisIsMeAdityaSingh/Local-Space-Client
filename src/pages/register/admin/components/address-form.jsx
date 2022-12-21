@@ -23,6 +23,13 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
         }
     };
 
+    const onCityChange = event => {
+        const {value} = event.target;
+        if(value){
+            onInputChange(event, 'city');
+        }
+    };
+
     return (
         <section className={styles.formSection}>
             <form>
@@ -62,13 +69,21 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
                 <label htmlFor="admin-register-city">
                     City:
                 </label>
-                <input 
-                    id="admin-register-city" 
-                    type="text"
+                <select
+                    id="admin-register-city"
+                    onChange={onCityChange}
                     disabled={formData['state'] && !errorData['submit'] ? false: true}
-                    placeholder='City'
-                    onChange={event => onInputChange(event, 'city')}
-                />
+                >
+                    <option value="">Select a City</option>
+                    {City.getCitiesOfCountry(countryCode)
+                        .filter(item => item.stateCode === stateCode)
+                        .map(item => {
+                            return <option value={item.name} key={item.latitude}>
+                                {item.name}
+                            </option>
+                        })
+                    }
+                </select>
             </form>
             <form>
                 <label htmlFor="admin-register-pincode">
@@ -78,7 +93,7 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
                     id="admin-register-pincode" 
                     type="text"
                     placeholder='Pincode'
-                    disabled={formData['city'] && !errorData['submit']? false : true}
+                    disabled={formData['city'] ? false : true}
                     onChange={event => onInputChange(event, 'pincode')}
                 />
             </form>
