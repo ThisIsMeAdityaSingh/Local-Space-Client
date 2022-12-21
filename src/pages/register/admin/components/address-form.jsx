@@ -5,11 +5,22 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
     const [countryCode, setCountryCode] = useState('');
     const [stateCode, setStateCode] = useState('');
 
-    const onOptionSelect = (event, field) => {
+    const onCountryChange = event => {
         const {value} = event.target;
-        console.log(value, field);
-        // onInputChange(event, 'country')
-        // make own Country state city API
+        if(value){
+            const countryCode = value.split('-')[1];
+            onInputChange(event, 'country');
+            setCountryCode(countryCode.trim());
+        }
+    };
+
+    const onStateChange = event => {
+        const {value} = event.target;
+        if(value){
+            const stateCode = value.split('-')[1];
+            onInputChange(event, 'state');
+            setStateCode(stateCode.trim());
+        }
     };
 
     return (
@@ -18,32 +29,34 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
                 <label htmlFor="admin-register-country">
                     Country:
                 </label>
-                <input 
+                <select
                     id='admin-register-country'
-                    list='admin-register-country-list'
-                    type="text" 
-                    placeholder='Country'
-                    onChange={event => onOptionSelect(event, 'country')}
-                />
-                <datalist id='admin-register-country-list'>
+                    onChange={onCountryChange}
+                >
+                    <option value="">Select a Country</option>
                     {Country.getAllCountries().map(item => {
-                        return <option value={`${item.name} (${item.isoCode})`} key={item.isoCode}>
+                        return <option value={`${item.name} - ${item.isoCode}`} key={item.isoCode}>
                             {item.name}
                         </option>
                     })}
-                </datalist>
+                </select>
             </form>
             <form>
                 <label htmlFor="admin-register-state">
                     State:
                 </label>
-                <input 
-                    id="admin-register-state" 
-                    type="text"
-                    disabled={formData['country'] && !errorData['country']? true: false}
-                    placeholder='State'
-                    onChange={event => onInputChange(event, 'state')}
-                />
+                <select 
+                    id="admin-register-state"
+                    onChange={onStateChange}
+                    disabled={formData['country'] && countryCode ? false: true}
+                >
+                    <option value="">Select a State</option>
+                    {State.getStatesOfCountry(countryCode).map(item => {
+                        return <option value={`${item.name} - ${item.isoCode}`} key={item.isoCode}>
+                            {item.name}
+                        </option>
+                    })}
+                </select>
             </form>
             <form>
                 <label htmlFor="admin-register-city">
@@ -52,7 +65,7 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
                 <input 
                     id="admin-register-city" 
                     type="text"
-                    disabled={formData['country'] && formData['state'] && !errorData['country'] && !errorData['submit']}
+                    disabled={formData['state'] && !errorData['submit'] ? false: true}
                     placeholder='City'
                     onChange={event => onInputChange(event, 'city')}
                 />
@@ -65,7 +78,7 @@ function AddressForm({styles, onInputChange, onFormSubmit, switchScreen, formDat
                     id="admin-register-pincode" 
                     type="text"
                     placeholder='Pincode'
-                    disabled={formData['city'] ? true : false}
+                    disabled={formData['city'] && !errorData['submit']? false : true}
                     onChange={event => onInputChange(event, 'pincode')}
                 />
             </form>
