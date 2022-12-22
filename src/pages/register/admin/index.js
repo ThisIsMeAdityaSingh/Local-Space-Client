@@ -154,6 +154,8 @@ function AdminSignUpComponent(){
                     errorData={errorData} 
                     onInputChange={onInputChange} 
                     switchScreen={switchScreen}
+                    setFormData={setFormData}
+                    setErrorData={setErrorData}
                 />
             case 1:
                 return <PasswordForm 
