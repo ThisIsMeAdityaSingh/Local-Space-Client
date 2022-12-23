@@ -184,7 +184,8 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
                     </label>
                     <input 
                         id='admin-register-password' 
-                        type="text" 
+                        type="text"
+                        value={formData.password}
                         placeholder='Password'
                         onChange={event => onInputChange(event, 'password')}
                     />
@@ -196,7 +197,8 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
                     </label>
                     <input 
                         id="admin-register-cnfPassword" 
-                        type="text" 
+                        type="text"
+                        value={formData.confirmPassword}
                         placeholder='Re-enter password'
                         disabled={errorData['password'] !== ''}
                         onChange={event => onInputChange(event, 'confirmPassword')}

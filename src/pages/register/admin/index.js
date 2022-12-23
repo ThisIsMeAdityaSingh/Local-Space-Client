@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import { REGISTRATION_DATA_VALIDATION, PASSWORD_VALIDATION } from '../../../common/validations';
 import AddressForm from './components/address-form';
 import PasswordForm from './components/password-form';
@@ -127,12 +128,21 @@ function AdminSignUpComponent(){
         const {value} = event.target;
         if(field === 'password' || field === 'confirmPassword'){
             passwordValidation(value.trim(), field);
-        }else{
+            setFormData(prevState => {
+                return {...prevState, [field]: value};
+            });
+        } else if (field === 'country' || field === 'state'){
+            const val = value.split('-')[0].trim();
+            formDataValidation(val, field);
+            setFormData(prevState => {
+                return {...prevState, [field]: val};
+            });
+        } else{
             formDataValidation(value.trim(), field);
+            setFormData(prevState => {
+                return {...prevState, [field]: value};
+            });
         }
-        setFormData(prevState => {
-            return {...prevState, [field]: value};
-        });
     };
 
     const switchScreen = num => setIndex(prevState => prevState + num);
@@ -140,7 +150,17 @@ function AdminSignUpComponent(){
     /**
      * Submits the Form, makes a POST call.
      */
-    const onFormSubmit = () => {};
+    const onFormSubmit = async () => {
+        // send a post request about admin data submission
+        console.log({...formData, paid: true});
+        const response = await axios({
+            method: 'post',
+            url: `http://localhost:4444/auth/admin/register`,
+            data: {...formData, paid: true},
+        });
+
+        console.log(response);
+    };
 
     /**
      * Switched between screen depending upon user journey and action
