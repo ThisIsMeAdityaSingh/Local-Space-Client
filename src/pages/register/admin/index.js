@@ -152,14 +152,11 @@ function AdminSignUpComponent(){
      */
     const onFormSubmit = async () => {
         // send a post request about admin data submission
-        console.log({...formData, paid: true});
         const response = await axios({
             method: 'post',
-            url: `http://localhost:4444/auth/admin/register`,
+            url: `${process.env.REACT_APP_ADMIN_AUTH_API}/register`,
             data: {...formData, paid: true},
         });
-
-        console.log(response);
     };
 
     /**
