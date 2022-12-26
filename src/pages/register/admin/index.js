@@ -157,6 +157,8 @@ function AdminSignUpComponent(){
             url: `${process.env.REACT_APP_ADMIN_AUTH_API}/register`,
             data: {...formData, paid: true},
         });
+
+        console.log(response);
     };
 
     /**
