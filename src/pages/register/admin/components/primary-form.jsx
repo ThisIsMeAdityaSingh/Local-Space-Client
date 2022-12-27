@@ -56,19 +56,21 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                     </label>
                     <input 
                         id='admin-register-firstName' 
+                        data-test='primary-form-first-name'
                         type="text" 
                         placeholder='First Name'
                         value={formData['firstName']}
                         onChange={event => onInputChange(event, 'firstName')}
                     />
-                    {errorData['firstName'] ? <sub>{errorData['firstName']}</sub> : <sub>Required</sub>}
+                    <sub data-test='primary-form-first-name-error'>{errorData['firstName'] ? errorData['firstName'] : 'Required'}</sub>
                 </form>
                 <form>
                     <label htmlFor="admin-register-lastName">
                         Last Name:
                     </label>
                     <input 
-                        id="admin-register-lastName" 
+                        id="admin-register-lastName"
+                        data-test='primary-form-last-name'
                         type="text" 
                         placeholder='Last Name'
                         value={formData['lastName']}
@@ -81,7 +83,8 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                         Email:
                     </label>
                     <input 
-                        id="admin-register-email" 
+                        id="admin-register-email"
+                        data-test='primary-form-email'
                         type="text" 
                         placeholder='Email'
                         value={formData['email']}
@@ -94,7 +97,8 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                         Phone Number:
                     </label>
                     <input 
-                        id="admin-register-phone" 
+                        id="admin-register-phone"
+                        data-test='primary-form-phone-number'
                         type="text" 
                         placeholder='Phone Number'
                         value={formData['phone']}
@@ -102,7 +106,7 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                     />
                     {errorData['phone'] ? <sub>{errorData['phone']}</sub> : <sub>Required</sub>}
                 </form>
-                <button onClick={onScreenChange}>Go next</button>
+                <button data-test="primary-form-next-button" onClick={onScreenChange}>Go next</button>
             </section>
         </>
     );
