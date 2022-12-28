@@ -47,6 +47,7 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                 title={'Error'}
                 content={dialogContent}
                 isShown={showDialog}
+                data-test='admin-primary-form-modal'
                 onClose={() => setShowDialog(false)}
             />
             <section className={styles.formSection}>
@@ -76,7 +77,7 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                         value={formData['lastName']}
                         onChange={event => onInputChange(event, 'lastName')}
                     />
-                    {errorData['lastName'] ? <sub>{errorData['lastName']}</sub> : <sub>Required</sub>}
+                    <sub data-test='primary-form-last-name-error'>{errorData['lastName'] ? errorData['lastName'] : 'Required'}</sub>
                 </form>
                 <form>
                     <label htmlFor="admin-register-email">
@@ -90,7 +91,7 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                         value={formData['email']}
                         onChange={event => onInputChange(event, 'email')}
                     />
-                    {errorData['email'] ? <sub>{errorData['email']}</sub> : <sub>Required</sub>}
+                    <sub data-test='primary-form-email-error'>{errorData['email'] ? errorData['email'] : 'Required'}</sub>
                 </form>
                 <form>
                     <label htmlFor="admin-register-phone">
@@ -104,7 +105,7 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                         value={formData['phone']}
                         onChange={event => onInputChange(event, 'phone')}
                     />
-                    {errorData['phone'] ? <sub>{errorData['phone']}</sub> : <sub>Required</sub>}
+                    <sub data-test='primary-form-phone-number-error'>{errorData['phone'] ? errorData['phone'] : 'Required'}</sub>
                 </form>
                 <button data-test="primary-form-next-button" onClick={onScreenChange}>Go next</button>
             </section>
