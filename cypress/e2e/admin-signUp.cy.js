@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-describe('empty spec', () => {
+describe('Admin Sign Up Testing', () => {
 
   beforeEach(() => {
     cy.visit('http://localhost:3000');
@@ -158,6 +158,58 @@ describe('empty spec', () => {
         cy.getByData(`${formElements[field].dataTest}-error`).contains('Required');
         cy.getByData(formElements[field].dataTest).clear();
       });
+    });
+
+    it("Test: Should not let user to continue with missing or invalid values", () => {
+      // check with incorrect values.
+
+      Object.keys(formElements).forEach(item => {
+        formElements[item].wrongInput.forEach(input => {
+          cy.getByData(formElements[item].dataTest).type(input.text);
+          cy.getByData('primary-form-next-button').click();
+          cy.getByClassName('ub-ovflw-x_auto > div.ub-box-szg_border-box > .ub-fnt-fam_b77syt').contains("Looks like you");
+          cy.getByClassName('css-elp417').should('exist').click();
+          cy.getByData('admin-sign-up-primary-form').should('exist');
+          cy.getByData('admin-sign-up-password-form').should('not.exist');
+        });
+      });
+
+      Object.keys(formElements).forEach(item => {  
+        formElements[item].wrongInput.forEach(input => {
+          cy.getByData(formElements[item].dataTest).clear();
+        });
+      });
+
+      // check with invalid values.
+      Object.keys(formElements).forEach(item => {
+        formElements[item].invalidInput.forEach(input => {
+          cy.getByData(formElements[item].dataTest).clear();
+          cy.getByData(formElements[item].dataTest).type(input.text);
+          cy.getByData('primary-form-next-button').click();
+          cy.getByClassName('ub-ovflw-x_auto > div.ub-box-szg_border-box > .ub-fnt-fam_b77syt').contains("Looks like you");
+          cy.getByClassName('css-elp417').should('exist').click();
+          cy.getByData('admin-sign-up-primary-form').should('exist');
+          cy.getByData('admin-sign-up-password-form').should('not.exist');
+        });
+      });
+
+      Object.keys(formElements).forEach(item => {  
+        formElements[item].wrongInput.forEach(input => {
+          cy.getByData(formElements[item].dataTest).clear();
+        });
+      });
+    });
+
+    it('Test: Should let user to continue with all valid values', () => {
+      Object.keys(formElements).forEach(item => {
+        cy.getByData(formElements[item].dataTest).clear();
+        cy.getByData(formElements[item].dataTest).type(formElements[item].correctInput.text);
+      });
+
+      cy.getByData('primary-form-next-button').click();
+      cy.getByClassName('css-elp417').should('not.exist');
+      cy.getByData('admin-sign-up-primary-form').should('not.exist');
+      cy.getByData('admin-sign-up-password-form').should('exist');
     });
   });
 })

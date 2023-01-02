@@ -28,3 +28,7 @@
 Cypress.Commands.add("getByData", selectors => {
     return cy.get(`[data-test=${selectors}]`);
 });
+
+Cypress.Commands.add("getByClassName", selectors => {
+    return cy.get(`.${selectors}`);
+});

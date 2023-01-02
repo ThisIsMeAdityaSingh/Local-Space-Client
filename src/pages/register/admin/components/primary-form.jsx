@@ -50,7 +50,7 @@ function PrimaryForm({styles, formData, errorData, onInputChange, switchScreen, 
                 data-test='admin-primary-form-modal'
                 onClose={() => setShowDialog(false)}
             />
-            <section className={styles.formSection}>
+            <section className={styles.formSection} data-test='admin-sign-up-primary-form'>
                 <form>
                     <label htmlFor="admin-register-firstName">
                         First Name:

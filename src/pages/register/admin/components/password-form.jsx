@@ -177,7 +177,7 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
                     <div styles={styles.passwordValidationChecksText}>Your password cannot be longer than 50 characters</div>
                 </div>
             </section>
-            <section className={styles.formSection}>
+            <section className={styles.formSection} data-test='admin-sign-up-password-form'>
                 <form>
                     <label htmlFor="admin-register-password">
                         Password:
