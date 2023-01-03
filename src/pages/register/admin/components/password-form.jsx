@@ -46,6 +46,7 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
         if(!formData['password']){
             return {
                 icon: <IoEllipseSharp color='darkgray' size={24}/>,
+                dataTest: 'password-one-letter-initial',
                 className: 'initial'
             };
         }
@@ -53,12 +54,14 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
         if(!PASSWORD_VALIDATION.letters.regex.test(formData['password'])){
             return {
                 icon: <IoCloseCircleSharp color='red' size={24}/>,
+                dataTest: 'password-one-letter-failed',
                 className: 'failed'
             };
         }
 
         return {
             icon: <IoCheckmarkCircle color='green' size={24}/>,
+            dataTest: 'password-one-letter-passed',
             className: 'passed'
         };
     };
@@ -67,6 +70,7 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
         if(!formData['password']){
             return {
                 icon: <IoEllipseSharp color='darkgray' size={24}/>,
+                dataTest: 'password-one-digit-initial',
                 className: 'initial'
             };
         }
@@ -74,12 +78,14 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
         if(!PASSWORD_VALIDATION.digits.regex.test(formData['password'])){
             return {
                 icon: <IoCloseCircleSharp color='red' size={24}/>,
+                dataTest: 'password-one-digit-failed',
                 className: 'failed'
             };
         }
 
         return {
             icon: <IoCheckmarkCircle color='green' size={24}/>,
+            dataTest: 'password-one-digit-passed',
             className: 'passed'
         };
     };
@@ -88,6 +94,7 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
         if(!formData['password']){
             return {
                 icon: <IoEllipseSharp color='darkgray' size={24}/>,
+                dataTest: 'password-spacial-character-initial',
                 className: 'initial'
             };
         }
@@ -95,54 +102,38 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
         if(!PASSWORD_VALIDATION.specialCharacters.regex.test(formData['password'])){
             return {
                 icon: <IoCloseCircleSharp color='red' size={24}/>,
+                dataTest: 'password-spacial-character-failed',
                 className: 'failed'
             };
         }
 
         return {
             icon: <IoCheckmarkCircle color='green' size={24} />,
+            dataTest: 'password-spacial-character-passed',
             className: 'passed'
         };
     };
 
-    const minLength = () => {
+    const passwordLength = () => {
         if(!formData['password']){
             return {
                 icon: <IoEllipseSharp color='darkgray' size={24} />,
+                dataTest: 'password-min-length-initial',
                 className: 'initial'
             };
         }
 
-        if(formData['password'].length < PASSWORD_VALIDATION.minLength.minLength){
+        if(formData['password'].length < PASSWORD_VALIDATION.minLength.minLength || formData['password'].length > PASSWORD_VALIDATION.maxLength.maxLength){
             return {
                 icon: <IoCloseCircleSharp color='red' size={24} />,
+                dataTest: 'password-min-length-failed',
                 className: 'failed'
             };
         }
 
         return {
             icon: <IoCheckmarkCircle color='green' size={24} />,
-            className: 'passed'
-        };
-    };
-
-    const maxLength = () => {
-        if(!formData['password']){
-            return {
-                icon: <IoEllipseSharp color='darkgray' size={24} />,
-                className: 'initial'
-            };
-        }
-
-        if(formData['password'].length > PASSWORD_VALIDATION.maxLength.maxLength){
-            return {
-                icon: <IoCloseCircleSharp color='red' size={24} />,
-                className: 'failed'
-            };
-        }
-
-        return {
-            icon: <IoCheckmarkCircle color='green' size={24} />,
+            dataTest: 'password-min-length-passed',
             className: 'passed'
         };
     };
@@ -157,24 +148,20 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
             />
             <section className={styles.passwordValidation}>
                 <div className={styles.passwordValidationChecks}>
-                    <div>{oneLetter().icon || <IoEllipseSharp color='darkgray'/>}</div>
+                    <div data-test={oneLetter().dataTest}>{oneLetter().icon || <IoEllipseSharp color='darkgray'/>}</div>
                     <div styles={styles.passwordValidationChecksText}>Your password must contain at least one letter</div>
                 </div>
                 <div className={styles.passwordValidationChecks}>
-                    <div>{oneDigit().icon || <IoEllipseSharp color='darkgray' />}</div>
+                    <div data-test={oneDigit().dataTest}>{oneDigit().icon || <IoEllipseSharp color='darkgray' />}</div>
                     <div styles={styles.passwordValidationChecksText}>Your password must contain at least one digit</div>
                 </div>
                 <div className={styles.passwordValidationChecks}>
-                    <div>{specialCharacter().icon || <IoEllipseSharp color='darkgray' />}</div>
+                    <div data-test={specialCharacter().dataTest}>{specialCharacter().icon || <IoEllipseSharp color='darkgray' />}</div>
                     <div styles={styles.passwordValidationChecksText}>{`Your password must contain at least one symbol in this list !@#$%^&*()=+_- or a space`}</div>
                 </div>
                 <div className={styles.passwordValidationChecks}>
-                    <div>{minLength().icon || <IoEllipseSharp color='darkgray' />}</div>
-                    <div styles={styles.passwordValidationChecksText}>Your password must be at least six characters long</div>
-                </div>
-                <div className={styles.passwordValidationChecks}>
-                    <div>{maxLength().icon || <IoEllipseSharp color='darkgray' />}</div>
-                    <div styles={styles.passwordValidationChecksText}>Your password cannot be longer than 50 characters</div>
+                    <div data-test={passwordLength().dataTest}>{passwordLength().icon || <IoEllipseSharp color='darkgray' />}</div>
+                    <div styles={styles.passwordValidationChecksText}>Your password must be between 6 to 50 characters long</div>
                 </div>
             </section>
             <section className={styles.formSection} data-test='admin-sign-up-password-form'>
@@ -183,7 +170,8 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
                         Password:
                     </label>
                     <input 
-                        id='admin-register-password' 
+                        id='admin-register-password'
+                        data-test='admin-sign-up-password'
                         type="text"
                         value={formData.password}
                         placeholder='Password'
@@ -198,6 +186,7 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
                     <input 
                         id="admin-register-cnfPassword" 
                         type="text"
+                        data-test='admin-sign-up-cnfPassword'
                         value={formData.confirmPassword}
                         placeholder='Re-enter password'
                         disabled={errorData['password'] !== ''}
@@ -207,7 +196,7 @@ function PasswordForm({styles, onInputChange, switchScreen, errorData, formData,
                 </form>
                 <div className={styles.buttonGroup}>
                     <button onClick={() => switchScreen(-1)}>Go back</button>
-                    <button onClick={onScreenChange} >
+                    <button data-test='admin-sign-up-password-next' onClick={onScreenChange} >
                         Go next
                     </button>
                 </div>
